@@ -13,7 +13,7 @@ const Quiz = () => {
   useEffect(() => {
     fetch('http://localhost:3000/Questions')
       .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch questions');
+        if (!res.ok) throw new Error('run json-server --watch src/db.json --port 3000 in terminal to fetch questin');
         return res.json();
       })
       .then(data => {
