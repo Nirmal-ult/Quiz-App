@@ -1,31 +1,65 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 
 const Quiz = () => {
-  const [questions, setQuestions] = useState([]);
-  const [current, setCurrent] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
-  const [showScore, setShowScore] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [showWarning, setShowWarning] = useState(false);
+  // Hardcoded questions in a variable
+  const questions = [
+    {
+      question: "What is the capital of Haryana?",
+      options: ["Yamunanagar", "Panipat", "Gurgaon", "Chandigarh"],
+      answer: "Chandigarh"
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      options: ["Earth", "Venus", "Mars", "Jupiter"],
+      answer: "Mars"
+    },
+    {
+      question: "What is the chemical symbol for water?",
+      options: ["WO", "H2O", "O2", "OH"],
+      answer: "H2O"
+    },
+    {
+      question: "Who wrote 'Romeo and Juliet'?",
+      options: ["Charles Dickens", "Jane Austen", "William Shakespeare", "Mark Twain"],
+      answer: "William Shakespeare"
+    },
+    {
+      question: "What is the capital of France?",
+      options: ["Berlin", "Madrid", "Paris", "Rome"],
+      answer: "Paris"
+    },
+    {
+      question: "Which gas do plants absorb from the atmosphere?",
+      options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+      answer: "Carbon Dioxide"
+    },
+    {
+      question: "Which language is primarily spoken in Brazil?",
+      options: ["Spanish", "Portuguese", "French", "English"],
+      answer: "Portuguese"
+    },
+    {
+      question: "How many continents are there on Earth?",
+      options: ["5", "6", "7", "8"],
+      answer: "7"
+    },
+    {
+      question: "Who painted the Mona Lisa?",
+      options: ["Pablo Picasso", "Leonardo da Vinci", "Vincent van Gogh", "Michelangelo"],
+      answer: "Leonardo da Vinci"
+    },
+    {
+      question: "Which is the largest mammal in the world?",
+      options: ["Elephant", "Blue Whale", "Giraffe", "Great White Shark"],
+      answer: "Blue Whale"
+    }
+  ];
 
-  useEffect(() => {
-    fetch('http://localhost:3000/Questions')
-      .then(res => {
-        if (!res.ok) throw new Error('run json-server --watch src/db.json --port 3000 in terminal to fetch questin');
-        return res.json();
-      })
-      .then(data => {
-        setQuestions(data);
-        setUserAnswers(Array(data.length).fill(null));
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+  const [current, setCurrent] = useState(0);
+  const [userAnswers, setUserAnswers] = useState(Array(questions.length).fill(null));
+  const [showScore, setShowScore] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleOptionSelect = (option) => {
     const updatedAnswers = [...userAnswers];
@@ -66,12 +100,6 @@ const Quiz = () => {
     }
     setShowWarning(false);
   };
-
-  if (loading) return <div className="app-wrapper"><p>Loading questions...</p></div>;
-  if (error) return <div className="app-wrapper"><p>Error: {error}</p></div>;
-
-  console.log("Current question index:", current);
-  console.log("Total number of questions:", questions.length);
 
   return (
     <div className="app-wrapper">
